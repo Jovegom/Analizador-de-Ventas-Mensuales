@@ -22,31 +22,83 @@ sales_data = [
     {"day": 20, "product_a": 210, "product_b": 57, "product_c": 324}
 ]
 
+
 def total_sales_by_product(data, product_key):
     """Calculates the total sales of a specific product in 30 days."""
-    pass
-
-
+    total_producto=0
+    for llaves in data:
+        for producto, cantidad in llaves.items():
+            if producto==product_key:
+                total_producto+=cantidad
+    return total_producto
+    
 def average_daily_sales(data, product_key):
     """Calculates the average daily sales of a specific product."""
-    pass
-
-
+    total_producto=0
+    cantidades=0
+    promedio=0
+    for llaves in data:
+        for producto, cantidad in llaves.items():
+            if producto==product_key:
+                cantidades+=1
+                total_producto+=cantidad
+                promedio=total_producto/cantidades
+    return promedio
+   
 def best_selling_day(data):
     """Finds the day with the highest total sales."""
-    pass
+    totales_x_dia={}
 
+    for llaves in data:
+        for clave, valor in llaves.items():
+            if clave == "day":
+                dia=valor
+                if dia not in totales_x_dia:
+                    totales_x_dia[dia] = 0  
+            else:
+                totales_x_dia[dia] += valor
+    dia_maximo=0
+    ventas_maximas=-1
 
+    for dias, cantidad in totales_x_dia.items():
+        if cantidad>ventas_maximas:
+            ventas_maximas=cantidad
+            dia_maximo=dias
+
+        
+    return f"Dia {dia_maximo}"
+        
 def days_above_threshold(data, product_key, threshold):
     """Counts how many days the sales of a product exceeded a given threshold."""
-    pass
-
+    producto_Objetivo=0
+    for llaves in data:        
+        for producto, cantidades in llaves.items():
+            if  producto == product_key:
+                if cantidades>300:
+                    producto_Objetivo+=1
+    return producto_Objetivo
 
 def top_product(data):
     """Determines which product had the highest total sales in 30 days."""
-    pass
-
-
+    total_productos={"product_a":0,"product_b":0,"product_c":0}
+    for llaves in data:
+        for clave, cantidades in llaves.items():
+            if clave != "day":
+                if clave=="product_a":
+                    total_productos["product_a"]+=cantidades
+                elif clave=="product_b":
+                    total_productos["product_b"]+=cantidades
+                elif clave=="product_c":
+                    total_productos["product_c"]+=cantidades
+    
+    ventas_mayor=0
+    producto_mayor=0
+    for x,y in total_productos.items():
+        if ventas_mayor<y:
+            ventas_mayor=y
+            producto_mayor=x
+    
+    return producto_mayor
 
 # Function tests
 print("Total sales of product_a:", total_sales_by_product(sales_data, "product_a"))
